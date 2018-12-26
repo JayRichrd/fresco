@@ -5,8 +5,14 @@ import org.apache.tools.ant.taskdefs.condition.Os
 
 buildscript {
     repositories {
-        google()
-        jcenter()
+//        google()
+//        jcenter()
+        maven {
+            url "http://maven.oa.com/nexus/content/groups/androidbuild"
+        }
+        maven {
+            url "http://maven.oa.com/nexus/content/repositories/jcenter/"
+        }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:${ANDROID_GRADLE_PLUGIN_VERSION}"
@@ -34,8 +40,14 @@ project.ext {
 subprojects {
 
     repositories {
-        google()
-        jcenter()
+//        google()
+//        jcenter()
+        maven {
+            url "http://maven.oa.com/nexus/content/groups/androidbuild"
+        }
+        maven {
+            url "http://maven.oa.com/nexus/content/repositories/jcenter/"
+        }
     }
 
     task allclean {
