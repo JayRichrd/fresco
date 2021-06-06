@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 package com.facebook.imagepipeline.filter;
 
 import android.content.Context;
@@ -13,9 +14,11 @@ import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 import com.facebook.common.internal.Preconditions;
+import com.facebook.infer.annotation.Nullsafe;
 
+@Nullsafe(Nullsafe.Mode.LOCAL)
 public abstract class RenderScriptBlurFilter {
 
   public static final int BLUR_MAX_RADIUS = 25;
@@ -39,20 +42,24 @@ public abstract class RenderScriptBlurFilter {
     Preconditions.checkArgument(radius > 0 && radius <= BLUR_MAX_RADIUS);
     RenderScript rs = null;
     try {
-      rs = RenderScript.create(context);
+      rs = Preconditions.checkNotNull(RenderScript.create(context));
 
       // Create an Intrinsic Blur Script using the Renderscript
       ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
 
       // Create the input/output allocations with Renderscript and the src/dest bitmaps
-      Allocation allIn = Allocation.createFromBitmap(rs, src);
-      Allocation allOut = Allocation.createFromBitmap(rs, dest);
+      Allocation allIn = Preconditions.checkNotNull(Allocation.createFromBitmap(rs, src));
+      Allocation allOut = Preconditions.checkNotNull(Allocation.createFromBitmap(rs, dest));
 
       // Set the radius of the blur
       blurScript.setRadius(radius);
       blurScript.setInput(allIn);
       blurScript.forEach(allOut);
       allOut.copyTo(dest);
+
+      blurScript.destroy();
+      allIn.destroy();
+      allOut.destroy();
     } finally {
       if (rs != null) {
         rs.destroy();

@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 package com.facebook.fresco.animation.bitmap.wrapper;
 
 import android.graphics.Bitmap;
@@ -14,11 +15,11 @@ import com.facebook.fresco.animation.bitmap.BitmapFrameCache;
 import com.facebook.fresco.animation.bitmap.BitmapFrameRenderer;
 import com.facebook.imagepipeline.animated.base.AnimatedDrawableBackend;
 import com.facebook.imagepipeline.animated.impl.AnimatedImageCompositor;
+import com.facebook.infer.annotation.Nullsafe;
 import javax.annotation.Nullable;
 
-/**
- * {@link BitmapFrameRenderer} that wraps around an {@link AnimatedDrawableBackend}.
- */
+/** {@link BitmapFrameRenderer} that wraps around an {@link AnimatedDrawableBackend}. */
+@Nullsafe(Nullsafe.Mode.LOCAL)
 public class AnimatedDrawableBackendFrameRenderer implements BitmapFrameRenderer {
 
   private static final Class<?> TAG = AnimatedDrawableBackendFrameRenderer.class;
@@ -43,8 +44,7 @@ public class AnimatedDrawableBackendFrameRenderer implements BitmapFrameRenderer
       };
 
   public AnimatedDrawableBackendFrameRenderer(
-      BitmapFrameCache bitmapFrameCache,
-      AnimatedDrawableBackend animatedDrawableBackend) {
+      BitmapFrameCache bitmapFrameCache, AnimatedDrawableBackend animatedDrawableBackend) {
     mBitmapFrameCache = bitmapFrameCache;
     mAnimatedDrawableBackend = animatedDrawableBackend;
 

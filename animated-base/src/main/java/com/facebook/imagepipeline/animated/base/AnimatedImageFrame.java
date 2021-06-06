@@ -8,10 +8,10 @@
 package com.facebook.imagepipeline.animated.base;
 
 import android.graphics.Bitmap;
+import com.facebook.infer.annotation.Nullsafe;
 
-/**
- * Common interface for a frame of an animated image.
- */
+/** Common interface for a frame of an animated image. */
+@Nullsafe(Nullsafe.Mode.LOCAL)
 public interface AnimatedImageFrame {
 
   /**
@@ -23,8 +23,8 @@ public interface AnimatedImageFrame {
   void dispose();
 
   /**
-   * Renders the frame to the specified bitmap. The bitmap must have a width and height that is
-   * at least as big as the specified width and height and it must be in RGBA_8888 color format.
+   * Renders the frame to the specified bitmap. The bitmap must have a width and height that is at
+   * least as big as the specified width and height and it must be in RGBA_8888 color format.
    *
    * @param width the width to render to (the image is scaled to this width)
    * @param height the height to render to (the image is scaled to this height)

@@ -4,15 +4,18 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 package com.facebook.imagepipeline.memory;
 
-import android.support.annotation.Nullable;
+import com.facebook.infer.annotation.Nullsafe;
+import javax.annotation.Nullable;
 
 /**
  * Manages pooled objects
  *
  * @param <T> type of pooled objects
  */
+@Nullsafe(Nullsafe.Mode.STRICT)
 interface PoolBackend<T> {
   /** @return available object from the pool or null */
   @Nullable

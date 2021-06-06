@@ -8,6 +8,8 @@
 package com.facebook.imagepipeline.producers;
 
 import com.facebook.imagepipeline.image.EncodedImage;
+import com.facebook.infer.annotation.Nullsafe;
+import javax.annotation.Nullable;
 
 /**
  * Add image transform meta data producer
@@ -15,6 +17,7 @@ import com.facebook.imagepipeline.image.EncodedImage;
  * <p>Extracts meta data from the results passed down from the next producer, and adds it to the
  * result that it returns to the consumer.
  */
+@Nullsafe(Nullsafe.Mode.LOCAL)
 public class AddImageTransformMetaDataProducer implements Producer<EncodedImage> {
   private final Producer<EncodedImage> mInputProducer;
 
@@ -27,15 +30,15 @@ public class AddImageTransformMetaDataProducer implements Producer<EncodedImage>
     mInputProducer.produceResults(new AddImageTransformMetaDataConsumer(consumer), context);
   }
 
-  private static class AddImageTransformMetaDataConsumer extends DelegatingConsumer<
-      EncodedImage, EncodedImage> {
+  private static class AddImageTransformMetaDataConsumer
+      extends DelegatingConsumer<EncodedImage, EncodedImage> {
 
     private AddImageTransformMetaDataConsumer(Consumer<EncodedImage> consumer) {
       super(consumer);
     }
 
     @Override
-    protected void onNewResultImpl(EncodedImage newResult, @Status int status) {
+    protected void onNewResultImpl(@Nullable EncodedImage newResult, @Status int status) {
       if (newResult == null) {
         getConsumer().onNewResult(null, status);
         return;

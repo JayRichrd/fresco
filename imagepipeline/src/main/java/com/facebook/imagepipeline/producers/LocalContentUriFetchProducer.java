@@ -9,32 +9,29 @@ package com.facebook.imagepipeline.producers;
 
 import android.content.ContentResolver;
 import android.content.res.AssetFileDescriptor;
-import android.database.Cursor;
 import android.net.Uri;
+import android.os.ParcelFileDescriptor;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import com.facebook.common.memory.PooledByteBufferFactory;
 import com.facebook.common.util.UriUtil;
 import com.facebook.imagepipeline.image.EncodedImage;
 import com.facebook.imagepipeline.request.ImageRequest;
-import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.Executor;
 import javax.annotation.Nullable;
 
-/**
- * Represents a local content Uri fetch producer.
- */
+/** Represents a local content Uri fetch producer. */
 public class LocalContentUriFetchProducer extends LocalFetchProducer {
 
   public static final String PRODUCER_NAME = "LocalContentUriFetchProducer";
 
-  private static final String[] PROJECTION = new String[] {
-      MediaStore.Images.Media._ID,
-      MediaStore.Images.ImageColumns.DATA
-  };
+  private static final String[] PROJECTION =
+      new String[] {MediaStore.Images.Media._ID, MediaStore.Images.ImageColumns.DATA};
 
   private final ContentResolver mContentResolver;
 
@@ -52,7 +49,7 @@ public class LocalContentUriFetchProducer extends LocalFetchProducer {
     if (UriUtil.isLocalContactUri(uri)) {
       final InputStream inputStream;
       if (uri.toString().endsWith("/photo")) {
-        inputStream =  mContentResolver.openInputStream(uri);
+        inputStream = mContentResolver.openInputStream(uri);
       } else if (uri.toString().endsWith("/display_photo")) {
         try {
           AssetFileDescriptor fd = mContentResolver.openAssetFileDescriptor(uri, "r");
@@ -67,9 +64,7 @@ public class LocalContentUriFetchProducer extends LocalFetchProducer {
         }
       }
       // If a Contact URI is provided, use the special helper to open that contact's photo.
-      return getEncodedImage(
-          inputStream,
-          EncodedImage.UNKNOWN_STREAM_SIZE);
+      return getEncodedImage(inputStream, EncodedImage.UNKNOWN_STREAM_SIZE);
     }
 
     if (UriUtil.isLocalCameraUri(uri)) {
@@ -79,34 +74,17 @@ public class LocalContentUriFetchProducer extends LocalFetchProducer {
       }
     }
 
-    return getEncodedImage(
-        mContentResolver.openInputStream(uri),
-        EncodedImage.UNKNOWN_STREAM_SIZE);
+    return getEncodedImage(mContentResolver.openInputStream(uri), EncodedImage.UNKNOWN_STREAM_SIZE);
   }
 
   private @Nullable EncodedImage getCameraImage(Uri uri) throws IOException {
-    Cursor cursor = mContentResolver.query(uri, PROJECTION, null, null, null);
-    if (cursor == null) {
+    try {
+      ParcelFileDescriptor parcelFileDescriptor = mContentResolver.openFileDescriptor(uri, "r");
+      FileDescriptor fd = parcelFileDescriptor.getFileDescriptor();
+      return getEncodedImage(new FileInputStream(fd), (int) parcelFileDescriptor.getStatSize());
+    } catch (FileNotFoundException e) {
       return null;
     }
-    try {
-      if (cursor.getCount() == 0) {
-        return null;
-      }
-      cursor.moveToFirst();
-      final String pathname =
-          cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA));
-      if (pathname != null) {
-        return getEncodedImage(new FileInputStream(pathname), getLength(pathname));
-      }
-    } finally {
-      cursor.close();
-    }
-    return null;
-  }
-
-  private static int getLength(String pathname) {
-    return pathname == null ? -1 : (int) new File(pathname).length();
   }
 
   @Override

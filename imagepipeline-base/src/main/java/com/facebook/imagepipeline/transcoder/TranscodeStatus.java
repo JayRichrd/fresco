@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 package com.facebook.imagepipeline.transcoder;
 
 import static com.facebook.imagepipeline.transcoder.TranscodeStatus.TRANSCODING_ERROR;
@@ -11,7 +12,7 @@ import static com.facebook.imagepipeline.transcoder.TranscodeStatus.TRANSCODING_
 import static com.facebook.imagepipeline.transcoder.TranscodeStatus.TRANSCODING_SUCCESS;
 import static java.lang.annotation.RetentionPolicy.SOURCE;
 
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 import java.lang.annotation.Retention;
 
 /** Status used by {@link ImageTranscodeResult} to supply additional information. */

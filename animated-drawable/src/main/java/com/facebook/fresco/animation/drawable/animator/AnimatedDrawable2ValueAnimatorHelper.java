@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 package com.facebook.fresco.animation.drawable.animator;
 
 import android.animation.ValueAnimator;
@@ -11,12 +12,12 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import com.facebook.fresco.animation.backend.AnimationInformation;
 import com.facebook.fresco.animation.drawable.AnimatedDrawable2;
+import com.facebook.infer.annotation.Nullsafe;
 import javax.annotation.Nullable;
 
-/**
- * Helper class to create {@link ValueAnimator}s for {@link AnimatedDrawable2}.
- */
+/** Helper class to create {@link ValueAnimator}s for {@link AnimatedDrawable2}. */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+@Nullsafe(Nullsafe.Mode.LOCAL)
 public class AnimatedDrawable2ValueAnimatorHelper {
 
   public static @Nullable ValueAnimator createValueAnimator(
@@ -57,6 +58,5 @@ public class AnimatedDrawable2ValueAnimatorHelper {
     };
   }
 
-  private AnimatedDrawable2ValueAnimatorHelper() {
-  }
+  private AnimatedDrawable2ValueAnimatorHelper() {}
 }

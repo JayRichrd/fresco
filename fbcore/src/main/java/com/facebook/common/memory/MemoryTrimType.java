@@ -1,11 +1,13 @@
 /*
- * Copyright (c) 2015-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
 
 package com.facebook.common.memory;
+
+import com.facebook.infer.annotation.Nullsafe;
 
 /**
  * Types of memory trim.
@@ -14,6 +16,7 @@ package com.facebook.common.memory;
  *
  * <p>A {@link MemoryTrimmableRegistry} implementation sends out memory trim events with this type.
  */
+@Nullsafe(Nullsafe.Mode.LOCAL)
 public enum MemoryTrimType {
 
   /** The application is approaching the device-specific Java heap limit. */
@@ -38,7 +41,7 @@ public enum MemoryTrimType {
   }
 
   /** Get the recommended percentage by which to trim the cache on receiving this event. */
-  public double getSuggestedTrimRatio () {
+  public double getSuggestedTrimRatio() {
     return mSuggestedTrimRatio;
   }
 }

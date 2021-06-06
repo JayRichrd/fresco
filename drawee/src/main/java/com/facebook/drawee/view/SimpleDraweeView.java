@@ -12,8 +12,8 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
+import androidx.annotation.DrawableRes;
 import com.facebook.common.internal.Preconditions;
 import com.facebook.common.internal.Supplier;
 import com.facebook.common.util.UriUtil;
@@ -81,9 +81,6 @@ public class SimpleDraweeView extends GenericDraweeView {
         FrescoSystrace.beginSection("SimpleDraweeView#init");
       }
       if (isInEditMode()) {
-        // Disable roundingParams due to a bug in Android Studio
-        // https://issuetracker.google.com/issues/113560562
-        getHierarchy().setRoundingParams(null);
         getTopLevelDrawable().setVisible(true, false);
         getTopLevelDrawable().invalidateSelf();
       } else {
@@ -200,9 +197,9 @@ public class SimpleDraweeView extends GenericDraweeView {
   /**
    * Sets the actual image resource to the given resource ID.
    *
-   * Similar to {@link #setImageResource(int)}, this sets the displayed image to the given resource.
-   * However, {@link #setImageResource(int)} bypasses all Drawee functionality and makes the view
-   * act as a normal {@link android.widget.ImageView}, whereas this method keeps all of the
+   * <p>Similar to {@link #setImageResource(int)}, this sets the displayed image to the given
+   * resource. However, {@link #setImageResource(int)} bypasses all Drawee functionality and makes
+   * the view act as a normal {@link android.widget.ImageView}, whereas this method keeps all of the
    * Drawee functionality, including the {@link com.facebook.drawee.interfaces.DraweeHierarchy}.
    *
    * @param resourceId the resource ID to use.
@@ -213,9 +210,9 @@ public class SimpleDraweeView extends GenericDraweeView {
   }
 
   /**
-   * This method will bypass all Drawee-related functionality.
-   * If you want to keep this functionality, take a look at {@link #setActualImageResource(int)}
-   * and {@link #setActualImageResource(int, Object)}}.
+   * This method will bypass all Drawee-related functionality. If you want to keep this
+   * functionality, take a look at {@link #setActualImageResource(int)} and {@link
+   * #setActualImageResource(int, Object)}}.
    *
    * @param resId the resource ID
    */

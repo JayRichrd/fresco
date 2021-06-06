@@ -1,11 +1,10 @@
 /*
- * Copyright (c) 2017-present, Facebook, Inc.
- * All rights reserved.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
+
 package com.facebook.animated.giflite.drawable;
 
 import android.graphics.Canvas;
@@ -13,7 +12,6 @@ import android.graphics.ColorFilter;
 import android.graphics.Movie;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.Nullable;
 import com.facebook.animated.giflite.decoder.GifMetadataDecoder;
 import com.facebook.fresco.animation.backend.AnimationBackend;
 import java.io.BufferedInputStream;
@@ -21,6 +19,7 @@ import java.io.Closeable;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import javax.annotation.Nullable;
 
 public class GifAnimationBackend implements AnimationBackend {
 
@@ -37,7 +36,7 @@ public class GifAnimationBackend implements AnimationBackend {
       is = new BufferedInputStream(new FileInputStream(filePath));
       is.mark(Integer.MAX_VALUE);
 
-      GifMetadataDecoder decoder = GifMetadataDecoder.create(is);
+      GifMetadataDecoder decoder = GifMetadataDecoder.create(is, null);
       is.reset();
 
       Movie movie = Movie.decodeStream(is);
@@ -66,7 +65,7 @@ public class GifAnimationBackend implements AnimationBackend {
   }
 
   @Override
-  public void setColorFilter(ColorFilter colorFilter) {
+  public void setColorFilter(@Nullable ColorFilter colorFilter) {
     // unimplemented
   }
 
@@ -115,7 +114,7 @@ public class GifAnimationBackend implements AnimationBackend {
   }
 
   private int getFrameStartTime(int frameNumber) {
-    if (frameNumber == 0) {
+    if (frameNumber == 0 || frameNumber >= mFrameStartTimes.length) {
       return 0;
     }
     if (mFrameStartTimes[frameNumber] != 0) {

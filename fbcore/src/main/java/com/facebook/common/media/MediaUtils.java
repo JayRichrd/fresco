@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -8,13 +8,13 @@
 package com.facebook.common.media;
 
 import com.facebook.common.internal.ImmutableMap;
+import com.facebook.infer.annotation.Nullsafe;
 import java.util.Locale;
 import java.util.Map;
 import javax.annotation.Nullable;
 
-/**
- * Utility class.
- */
+/** Utility class. */
+@Nullsafe(Nullsafe.Mode.LOCAL)
 public class MediaUtils {
   // Additional mime types that we know to be a particular media type but which may not be
   // supported natively on the device.
@@ -59,8 +59,8 @@ public class MediaUtils {
   }
 
   /**
-   * @return true if the mime type is one of our whitelisted mimetypes that we support beyond
-   *         what the native platform supports.
+   * @return true if the mime type is one of our whitelisted mimetypes that we support beyond what
+   *     the native platform supports.
    */
   public static boolean isNonNativeSupportedMimeType(String mimeType) {
     return ADDITIONAL_ALLOWED_MIME_TYPES.containsValue(mimeType);

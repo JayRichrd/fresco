@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 package com.facebook.fresco.animation.bitmap.preparation;
 
 import android.graphics.Bitmap;
@@ -15,14 +16,16 @@ import com.facebook.fresco.animation.bitmap.BitmapAnimationBackend;
 import com.facebook.fresco.animation.bitmap.BitmapFrameCache;
 import com.facebook.fresco.animation.bitmap.BitmapFrameRenderer;
 import com.facebook.imagepipeline.bitmaps.PlatformBitmapFactory;
+import com.facebook.infer.annotation.Nullsafe;
 import java.util.concurrent.ExecutorService;
+import javax.annotation.Nullable;
 
 /**
- * Default bitmap frame preparer that uses the given {@link ExecutorService} to schedule jobs.
- * An instance of this class can be shared between multiple animated images.
+ * Default bitmap frame preparer that uses the given {@link ExecutorService} to schedule jobs. An
+ * instance of this class can be shared between multiple animated images.
  */
-public class DefaultBitmapFramePreparer
-    implements BitmapFramePreparer {
+@Nullsafe(Nullsafe.Mode.LOCAL)
+public class DefaultBitmapFramePreparer implements BitmapFramePreparer {
 
   private static final Class<?> TAG = DefaultBitmapFramePreparer.class;
 
@@ -46,9 +49,7 @@ public class DefaultBitmapFramePreparer
 
   @Override
   public boolean prepareFrame(
-      BitmapFrameCache bitmapFrameCache,
-      AnimationBackend animationBackend,
-      int frameNumber) {
+      BitmapFrameCache bitmapFrameCache, AnimationBackend animationBackend, int frameNumber) {
     // Create a unique ID to identify the frame for the given backend.
     int frameId = getUniqueId(animationBackend, frameNumber);
     synchronized (mPendingFrameDecodeJobs) {
@@ -62,11 +63,8 @@ public class DefaultBitmapFramePreparer
         FLog.v(TAG, "Frame %d is cached already.", frameNumber);
         return true;
       }
-      Runnable frameDecodeRunnable = new FrameDecodeRunnable(
-          animationBackend,
-          bitmapFrameCache,
-          frameNumber,
-          frameId);
+      Runnable frameDecodeRunnable =
+          new FrameDecodeRunnable(animationBackend, bitmapFrameCache, frameNumber, frameId);
       mPendingFrameDecodeJobs.put(frameId, frameDecodeRunnable);
       mExecutorService.execute(frameDecodeRunnable);
     }
@@ -120,9 +118,8 @@ public class DefaultBitmapFramePreparer
     }
 
     private boolean prepareFrameAndCache(
-        int frameNumber,
-        @BitmapAnimationBackend.FrameType int frameType) {
-      CloseableReference<Bitmap> bitmapReference = null;
+        int frameNumber, @BitmapAnimationBackend.FrameType int frameType) {
+      @Nullable CloseableReference<Bitmap> bitmapReference = null;
       boolean created;
       int nextFrameType;
 
@@ -170,7 +167,7 @@ public class DefaultBitmapFramePreparer
 
     private boolean renderFrameAndCache(
         int frameNumber,
-        CloseableReference<Bitmap> bitmapReference,
+        @Nullable CloseableReference<Bitmap> bitmapReference,
         @BitmapAnimationBackend.FrameType int frameType) {
       // Check if the bitmap is valid
       if (!CloseableReference.isValid(bitmapReference)) {

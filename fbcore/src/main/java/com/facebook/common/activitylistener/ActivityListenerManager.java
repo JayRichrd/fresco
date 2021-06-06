@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import com.facebook.common.internal.Preconditions;
+import com.facebook.infer.annotation.Nullsafe;
 import java.lang.ref.WeakReference;
 import javax.annotation.Nullable;
 
@@ -20,6 +21,7 @@ import javax.annotation.Nullable;
  * <p>A WeakReference is used to wrap an ActivityVisibilityListener. When it is nullified
  * ActivityListener is automatically removed from the listened ListenableActivity.
  */
+@Nullsafe(Nullsafe.Mode.LOCAL)
 public class ActivityListenerManager {
 
   /**
@@ -99,7 +101,7 @@ public class ActivityListenerManager {
       }
     }
 
-    private ActivityListener getListenerOrCleanUp(Activity activity) {
+    private @Nullable ActivityListener getListenerOrCleanUp(Activity activity) {
       ActivityListener activityVisibilityListener = mActivityListenerRef.get();
       if (activityVisibilityListener == null) {
         Preconditions.checkArgument(activity instanceof ListenableActivity);

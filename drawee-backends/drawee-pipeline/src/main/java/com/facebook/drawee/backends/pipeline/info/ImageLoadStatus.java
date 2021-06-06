@@ -4,9 +4,11 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 package com.facebook.drawee.backends.pipeline.info;
 
 import static com.facebook.drawee.backends.pipeline.info.ImageLoadStatus.CANCELED;
+import static com.facebook.drawee.backends.pipeline.info.ImageLoadStatus.DRAW;
 import static com.facebook.drawee.backends.pipeline.info.ImageLoadStatus.ERROR;
 import static com.facebook.drawee.backends.pipeline.info.ImageLoadStatus.INTERMEDIATE_AVAILABLE;
 import static com.facebook.drawee.backends.pipeline.info.ImageLoadStatus.ORIGIN_AVAILABLE;
@@ -15,7 +17,7 @@ import static com.facebook.drawee.backends.pipeline.info.ImageLoadStatus.SUCCESS
 import static com.facebook.drawee.backends.pipeline.info.ImageLoadStatus.UNKNOWN;
 import static java.lang.annotation.RetentionPolicy.SOURCE;
 
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 import java.lang.annotation.Retention;
 
 @Retention(SOURCE)
@@ -27,6 +29,7 @@ import java.lang.annotation.Retention;
   SUCCESS,
   CANCELED,
   ERROR,
+  DRAW,
 })
 public @interface ImageLoadStatus {
 
@@ -37,4 +40,5 @@ public @interface ImageLoadStatus {
   int SUCCESS = 3;
   int CANCELED = 4;
   int ERROR = 5;
+  int DRAW = 6;
 }
