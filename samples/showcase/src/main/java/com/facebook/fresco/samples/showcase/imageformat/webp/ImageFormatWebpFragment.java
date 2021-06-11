@@ -41,21 +41,21 @@ public class ImageFormatWebpFragment extends BaseShowcaseFragment {
 
   @Override
   public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-    final SimpleDraweeView draweeWebpStatic = view.findViewById(R.id.drawee_view_webp_static);
-    draweeWebpStatic.setImageURI(sampleUris().createWebpStaticUri());
+//    final SimpleDraweeView draweeWebpStatic = view.findViewById(R.id.drawee_view_webp_static);
+//    draweeWebpStatic.setImageURI(sampleUris().createWebpStaticUri());
 
-    final SimpleDraweeView draweeWebpTranslucent =
-        view.findViewById(R.id.drawee_view_webp_translucent);
-    draweeWebpTranslucent.setImageURI(sampleUris().createWebpTranslucentUri());
+//    final SimpleDraweeView draweeWebpTranslucent =
+//        view.findViewById(R.id.drawee_view_webp_translucent);
+//    draweeWebpTranslucent.setImageURI(sampleUris().createWebpTranslucentUri());
 
     final SwitchCompat switchBackground = view.findViewById(R.id.switch_background);
     switchBackground.setOnCheckedChangeListener(
         new CompoundButton.OnCheckedChangeListener() {
           @Override
           public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            draweeWebpTranslucent
-                .getHierarchy()
-                .setBackgroundImage(isChecked ? new CheckerBoardDrawable(getResources()) : null);
+//            draweeWebpTranslucent
+//                .getHierarchy()
+//                .setBackgroundImage(isChecked ? new CheckerBoardDrawable(getResources()) : null);
           }
         });
 
